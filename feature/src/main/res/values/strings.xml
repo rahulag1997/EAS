@@ -1,1 +1,7 @@
-<resources></resources>
+<resources>
+    <string name="login">Login</string>
+    <string name="exit">Exit</string>
+    <string name="create_account">Create Account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+</resources>
