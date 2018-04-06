@@ -1,5 +1,6 @@
 package com.rahul.eas.feature;
 
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -37,6 +38,17 @@ public class BaseActivity extends AppCompatActivity {
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
 
+                        int i = menuItem.getItemId();
+                        if (i == R.id.menu_settings) {
+                            startActivity(new Intent(getApplicationContext(), Settings.class));
+                        }
+                        else if(i == R.id.menu_home) {
+                            startActivity(new Intent(getApplicationContext(), Home.class));
+                        }
+                        else if(i == R.id.menu_logout) {
+                            startActivity(new Intent(getApplicationContext(), LoginScreen.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        }
+
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
 
@@ -49,7 +61,7 @@ public class BaseActivity extends AppCompatActivity {
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_view_headline_black_24dp);
+        actionbar.setHomeAsUpIndicator(R.drawable.menu);
 
         mDrawerLayout.addDrawerListener(
                 new DrawerLayout.DrawerListener() {

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ public class SetupPassword extends AppCompatActivity {
     // Private Variables
     // Views
     private EditText password_et, confirm_et;
+    private CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,9 @@ public class SetupPassword extends AppCompatActivity {
     private void setup() {
         password_et = findViewById(R.id.create_password_et);
         confirm_et = findViewById(R.id.create_confirm_et);
+        checkBox = findViewById(R.id.create_cb);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        checkBox.setChecked(sharedPreferences.getBoolean("Fingerprint",false));
     }
 
     public void Create(View view) {
@@ -58,6 +63,7 @@ public class SetupPassword extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString("Password",pass1);
+        editor.putBoolean("Fingerprint",checkBox.isChecked());
         editor.apply();
 
         startActivity(new Intent(this,LoginScreen.class));

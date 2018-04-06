@@ -63,7 +63,8 @@ public class LoginScreen extends AppCompatActivity {
         setup();
 
         boolean flag = true;
-        boolean useFingerprint = true;
+        SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        boolean useFingerprint = sharedPreferences.getBoolean("Fingerprint",false);
         if(useFingerprint) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

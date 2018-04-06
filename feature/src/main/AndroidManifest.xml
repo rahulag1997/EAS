@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SetupPassword"
+        <activity
+            android:name=".SetupPassword"
             android:label="Setup Password">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
@@ -35,7 +36,8 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".Home"
+        <activity
+            android:name=".Home"
             android:label="Home">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
@@ -49,8 +51,80 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".BaseActivity"
+        <activity
+            android:name=".BaseActivity"
             android:label="Base">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="rahul.com"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Settings"
+            android:label="Settings">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="rahul.com"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Accounts"
+            android:label="Accounts">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="rahul.com"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Bank"
+            android:label="Bank">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="rahul.com"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AccountView">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="rahul.com"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".NewAccount">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
