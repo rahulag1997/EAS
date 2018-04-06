@@ -1,7 +1,11 @@
 <resources>
-    <string name="login">Login</string>
     <string name="exit">Exit</string>
-    <string name="create_account">Create Account</string>
-    <string name="username">Username</string>
+    <string name="login">Login</string>
     <string name="password">Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="setup_login_password">Setup Login Password</string>
+    <string name="enter_password_to_continue">Enter Password to Continue</string>
+    <string name="instructions">Enter Password or Fingerprint to Continue</string>
+    <string name="sidebar_title">Open</string>
 </resources>

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rahul.eas.feature">
 
-    <application android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".WelcomeScreen">
+    <application>
+        <activity android:name=".LoginScreen">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginScreen">
+        <activity android:name=".SetupPassword"
+            android:label="Setup Password">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -34,7 +35,22 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAccount">
+        <activity android:name=".Home"
+            android:label="Home">
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="rahul.com"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".BaseActivity"
+            android:label="Base">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
