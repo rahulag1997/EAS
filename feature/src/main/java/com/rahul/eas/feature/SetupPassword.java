@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SetupPassword extends AppCompatActivity {
@@ -32,6 +34,23 @@ public class SetupPassword extends AppCompatActivity {
         password_et = findViewById(R.id.create_password_et);
         confirm_et = findViewById(R.id.create_confirm_et);
         checkBox = findViewById(R.id.create_cb);
+
+        password_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                confirm_et.requestFocus();
+                return false;
+            }
+        });
+
+        confirm_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                create();
+                return false;
+            }
+        });
+
         SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         checkBox.setChecked(sharedPreferences.getBoolean("Fingerprint",false));
     }

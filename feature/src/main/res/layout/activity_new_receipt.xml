@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NewReceipt">
+
+    <include
+        layout="@layout/date_line"
+        android:id="@+id/receipt_date"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content">
+    </include>
+
+    <include
+        layout="@layout/actv_line"
+        android:id="@+id/receipt_from"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+    </include>
+
+    <include
+        layout="@layout/actv_line"
+        android:id="@+id/receipt_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+    </include>
+
+    <include
+        layout="@layout/et_line_number"
+        android:id="@+id/receipt_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+    </include>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/submit_button"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:onClick="Submit"/>
+
+</LinearLayout>

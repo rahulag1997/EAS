@@ -25,4 +25,14 @@
     <string name="total">TOTAL</string>
     <string name="s_no">S.No.</string>
     <string name="particulars">Particulars</string>
+    <string name="amount">Amount</string>
+    <string name="to">To</string>
+    <string-array name="Acc_Types">
+        <item>Bank</item>
+        <item>Cash</item>
+        <item>Sales</item>
+        <item>Expense</item>
+        <item>Creditor</item>
+        <item>Debtor</item>
+    </string-array>
 </resources>
