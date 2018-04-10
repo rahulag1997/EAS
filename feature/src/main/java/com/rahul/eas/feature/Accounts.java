@@ -17,6 +17,14 @@ public class Accounts extends BaseActivity {
     }
 
     public void Bank(View view) {
-        startActivity(new Intent(getApplicationContext(), Bank.class));
+        startActivity(new Intent(getApplicationContext(), AccountsView.class).putExtra(getString(R.string.Extra_AccountsView_Type),0));
+    }
+
+    public void Creditor(View view) {
+        startActivity(new Intent(getApplicationContext(), AccountsView.class).putExtra(getString(R.string.Extra_AccountsView_Type),3));
+    }
+
+    public void Debtor(View view) {
+        startActivity(new Intent(getApplicationContext(), AccountsView.class).putExtra(getString(R.string.Extra_AccountsView_Type),4));
     }
 }

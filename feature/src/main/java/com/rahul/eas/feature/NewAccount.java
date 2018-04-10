@@ -1,5 +1,6 @@
 package com.rahul.eas.feature;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
@@ -101,6 +102,10 @@ public class NewAccount extends BaseActivity {
 
         // TODO Add into account
         Accounts_Item item = new Accounts_Item(id, name, location, debit, credit, ob_val, type);
+
+        Accounts_Item_Database accounts_item_database = Room.databaseBuilder(getApplicationContext(), Accounts_Item_Database.class, "Accounts").allowMainThreadQueries().build();
+
+        accounts_item_database.accounts_item_dao().insertAll(item);
 
         SharedPreferences.Editor editor= sharedPreferences.edit();
         editor.putInt(getString(R.string.Key_A_Count), id+1);

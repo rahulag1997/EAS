@@ -51,9 +51,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="25dp"
         android:text="@string/creditor"
+        android:onClick="Creditor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accounts_expense_button" />
+        app:layout_constraintTop_toBottomOf="@+id/accounts_expense_button"
+        tools:ignore="OnClick" />
 
     <Button
         android:id="@+id/home_debtor_button"
@@ -63,6 +65,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="25dp"
         android:text="@string/debtor"
+        android:onClick="Debtor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_creditor_button" />

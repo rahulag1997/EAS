@@ -1,23 +1,33 @@
 package com.rahul.eas.feature;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 class Accounts_Item
 {
+    @PrimaryKey
     Integer id;
-    String name;
-    private String location;
-    Float balance;
-    Float debit;
-    Float credit;
-    private String type;
 
-    Accounts_Item(Integer id, String name, Float debit, Float credit, Float balance)
-    {
-        this.id = id;
-        this.name = name;
-        this.debit = debit;
-        this.credit = credit;
-        this.balance = balance;
-    }
+    @ColumnInfo(name = "name")
+    String name;
+
+    @ColumnInfo(name = "location")
+    String location;
+
+    @ColumnInfo(name = "balance")
+    Float balance;
+
+    @ColumnInfo(name = "debit")
+    Float debit;
+
+    @ColumnInfo(name = "credit")
+    Float credit;
+
+    @ColumnInfo(name = "type")
+    String type;
+
 
     Accounts_Item(Integer id, String name, String location, Float debit, Float credit, Float balance, String type)
     {

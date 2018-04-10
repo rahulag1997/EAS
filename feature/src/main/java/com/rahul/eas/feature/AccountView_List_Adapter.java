@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 class AccountView_List_Adapter extends BaseAdapter
 {
-    private final ArrayList<AccountView_Item> data;
+    private ArrayList<AccountView_Item> data;
     private final LayoutInflater layoutInflater;
     private final Context context;
     AccountView_List_Adapter(Context context, ArrayList<AccountView_Item> data)
@@ -36,6 +36,11 @@ class AccountView_List_Adapter extends BaseAdapter
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public void updateData(ArrayList<AccountView_Item> new_data){
+        this.data = new_data;
+        notifyDataSetChanged();
     }
 
     @Override
