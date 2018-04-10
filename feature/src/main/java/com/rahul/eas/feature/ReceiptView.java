@@ -8,17 +8,20 @@ import android.view.View;
 import android.widget.TextView;
 
 public class ReceiptView extends BaseActivity {
-    private int t_id;
+    private Integer t_id, r_id;
     String date, from, to, amount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt_view);
 
-        t_id = getIntent().getIntExtra("Id", 0);
+        t_id = getIntent().getIntExtra(getString(R.string.Extra_AccountsView_TID), 0);
+
 
         getData();
 
+        if(getSupportActionBar()!=null)
+            getSupportActionBar().setTitle("Receipt No. "+r_id);
         display();
 
         setFAB();
@@ -37,25 +40,25 @@ public class ReceiptView extends BaseActivity {
     private void display() {
         View date_line = findViewById(R.id.receipt_date);
         TextView date_title = date_line.findViewById(R.id.tv_line_type_tv);
-        date_title.setText("Date");
+        date_title.setText(getString(R.string.date));
         TextView date_value = date_line.findViewById(R.id.tv_line_value_tv);
         date_value.setText(date);
 
         View from_line = findViewById(R.id.receipt_from);
         TextView from_title = from_line.findViewById(R.id.tv_line_type_tv);
-        from_title.setText("From");
+        from_title.setText(getString(R.string.name));
         TextView from_value = from_line.findViewById(R.id.tv_line_value_tv);
         from_value.setText(from);
 
         View to_line = findViewById(R.id.receipt_to);
         TextView to_title = to_line.findViewById(R.id.tv_line_type_tv);
-        to_title.setText("To");
+        to_title.setText(getString(R.string.to));
         TextView to_value = to_line.findViewById(R.id.tv_line_value_tv);
         to_value.setText(to);
 
         View amount_line = findViewById(R.id.receipt_amount);
         TextView amount_title = amount_line.findViewById(R.id.tv_line_type_tv);
-        amount_title.setText("Amount");
+        amount_title.setText(getString(R.string.amount));
         TextView amount_value = amount_line.findViewById(R.id.tv_line_value_tv);
         amount_value.setText(amount);
 
@@ -68,5 +71,6 @@ public class ReceiptView extends BaseActivity {
         from = "From";
         to = "To";
         amount = "amount";
+        r_id = 0;
     }
 }

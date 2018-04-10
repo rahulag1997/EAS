@@ -8,35 +8,31 @@
     tools:context=".Settings"
     android:orientation="vertical">
 
-    <LinearLayout
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center"
+        android:id="@+id/settings_fingerprint_cb"
+        android:padding="10dp"
         android:layout_margin="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/create_confirm_button">
+        android:text="@string/use_fingerprint"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/settings_fingerprint_cb"
-            android:padding="10dp"
-            android:layout_margin="5dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/use_fingerprint"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-    </LinearLayout>
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/settings_confirmation_cb"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:text="@string/confirmation"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Change Password"
+        android:text="@string/change_password"
         android:onClick="ChangePass"
         android:layout_gravity="center"/>
 
@@ -44,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Clear Data"
+        android:text="@string/clear_data"
         android:onClick="ClearData"
         android:layout_gravity="center"/>
 

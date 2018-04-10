@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -29,7 +28,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
@@ -44,34 +42,42 @@ public class LoginScreen extends AppCompatActivity {
     private TextView instruction_tv;
 
     //    Actual Password
-    private String actual_password="1821";
+    private String actual_password;
 
-    // Fingerprint STUFF
-    private KeyguardManager keyguardManager;
-    private FingerprintManager fingerprintManager;
+    private SharedPreferences sharedPreferences;
+
     private static final String KEY_NAME = "yourKey";
     private Cipher cipher;
     private KeyStore keyStore;
-    private KeyGenerator keyGenerator;
-    private FingerprintManager.CryptoObject cryptoObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
 
+        sharedPreferences = this.getSharedPreferences(getString(R.string.SharedPreferencesName), Context.MODE_PRIVATE);
+
         setup();
 
-        boolean flag = true;
-        SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        boolean useFingerprint = sharedPreferences.getBoolean("Fingerprint",false);
-        if(useFingerprint) {
+        boolean flag = setupFingerprint();
 
+        if (flag) {
+            fingerprint_iv.setVisibility(View.INVISIBLE);
+            instruction_tv.setText(getString(R.string.enter_password_to_continue));
+        }
+
+
+    }
+
+    private boolean setupFingerprint() {
+        boolean useFingerprint = sharedPreferences.getBoolean(getString(R.string.Key_UseFingerprint),false);
+
+        if(useFingerprint) {
+            // Check if Android version is good enough to support
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                // Get an instance of KeyguardManager and FingerprintManager
-                keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-                fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
+                // Get an instance of FingerprintManager
+                FingerprintManager fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
 
                 //Check hardware presence
                 if (fingerprintManager.isHardwareDetected()) {
@@ -82,7 +88,10 @@ public class LoginScreen extends AppCompatActivity {
                         //Check that the user has registered at least one fingerprint//
                         if (fingerprintManager.hasEnrolledFingerprints()) {
 
-                            //Check that the lockscreen is secured//
+                            // Get an instance of KeyguardManager
+                            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+
+                            //Check that the lockScreen is secured//
                             if (keyguardManager.isKeyguardSecure()) {
 
                                 try {
@@ -94,14 +103,15 @@ public class LoginScreen extends AppCompatActivity {
 
                                 if (initCipher()) {
                                     //If the cipher is initialized successfully, then create a CryptoObject instance//
-                                    cryptoObject = new FingerprintManager.CryptoObject(cipher);
+                                    FingerprintManager.CryptoObject cryptoObject = new FingerprintManager.CryptoObject(cipher);
 
-                                    // Here, I’m referencing the com.rahul.eas.feature.FingerprintHandler class that we’ll create in the next section. This class will be responsible
-                                    // for starting the authentication process (via the startAuth method) and processing the authentication process events//
+                                    // Here, I’m referencing the FingerprintHandler class.
+                                    // This class will be responsible for starting the authentication process (via the startAuth method) and processing the authentication process events
                                     FingerprintHandler helper = new FingerprintHandler(this);
                                     helper.startAuth(fingerprintManager, cryptoObject);
                                 }
-                                flag = false;
+                                // If all these are successful then don;t hide the fingerprint image
+                                return false;
                             }
                         }
                     }
@@ -109,12 +119,7 @@ public class LoginScreen extends AppCompatActivity {
 
             }
         }
-        if (flag) {
-            fingerprint_iv.setVisibility(View.INVISIBLE);
-            instruction_tv.setText(getString(R.string.enter_password_to_continue));
-        }
-
-
+        return true;
     }
 
     private void generateKey() throws FingerprintException {
@@ -124,7 +129,7 @@ public class LoginScreen extends AppCompatActivity {
             keyStore = KeyStore.getInstance("AndroidKeyStore");
 
             //Generate the key//
-            keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
 
             //Initialize an empty KeyStore//
             keyStore.load(null);
@@ -155,13 +160,13 @@ public class LoginScreen extends AppCompatActivity {
                 | IOException exc) {
             exc.printStackTrace();
             throw new FingerprintException(exc);
-        }
-        else
+        } else
             throw new FingerprintException(null);
     }
 
     //Create a new method that we’ll use to initialize our cipher//
     public boolean initCipher() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         try {
             //Obtain a cipher instance and configure it with the properties required for fingerprint authentication//
             cipher = Cipher.getInstance(
@@ -188,13 +193,12 @@ public class LoginScreen extends AppCompatActivity {
                 | UnrecoverableKeyException | IOException
                 | NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException("Failed to init Cipher", e);
-        }
-        else
+        } else
             throw new RuntimeException("Failed to init Cipher");
     }
 
     private class FingerprintException extends Exception {
-        public FingerprintException(Exception e) {
+        FingerprintException(Exception e) {
             super(e);
         }
     }
@@ -226,13 +230,10 @@ public class LoginScreen extends AppCompatActivity {
         instruction_tv = findViewById(R.id.login_instruction_tv);
 
         // Shared Preferences
-        SharedPreferences sharedPreferences;
-
-        sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        actual_password = sharedPreferences.getString("Password",null);
+        actual_password = sharedPreferences.getString(getString(R.string.Key_PasswordValue),null);
 
         if(actual_password==null){
-            startActivity(new Intent(this,SetupPassword.class));
+            startActivity(new Intent(this, SetupPassword.class));
             finish();
         }
 

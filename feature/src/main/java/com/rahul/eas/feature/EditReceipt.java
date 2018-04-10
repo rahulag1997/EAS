@@ -28,15 +28,16 @@ public class EditReceipt extends BaseActivity {
     private AutoCompleteTextView from_actv, to_actv;
 
     private ArrayList<String> from_list, to_list;
-    private ArrayList<String> from_list_id, to_list_id;
+    private ArrayList<Integer> from_list_id, to_list_id;
     private ArrayAdapter<String> from_adapter, to_adapter;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    private String from, to, date, amount, from_id, to_id;
+    private String from, to, date, amount;
 
-    private int t_id;
+    private Integer t_id, r_id, from_id, to_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,23 +45,19 @@ public class EditReceipt extends BaseActivity {
         FloatingActionButton floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.hide();
 
-        t_id = getIntent().getIntExtra("Id", 0);
+        t_id = getIntent().getIntExtra(getString(R.string.Key_TransactionID), 0);
         getTransactionData();
         setup();
     }
 
     private void setup() {
-        sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences(getString(R.string.SharedPreferencesName), Context.MODE_PRIVATE);
 
-        date_tv = findViewById(R.id.receipt_date).findViewById(R.id.dateEditText);
+        date_tv = findViewById(R.id.edit_receipt_date_tv);
         date_tv.setText(date);
 
-        TextView amount_tv, from_tv, to_tv;
 
-        View amount_line = findViewById(R.id.receipt_amount);
-        amount_tv = amount_line.findViewById(R.id.et_line_number_tv);
-        amount_tv.setText(getString(R.string.amount));
-        amount_et = amount_line.findViewById(R.id.et_line_number_et);
+        amount_et = findViewById(R.id.edit_receipt_amount_et);
         amount_et.setText(amount);
 
         amount_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -71,10 +68,7 @@ public class EditReceipt extends BaseActivity {
             }
         });
 
-        View from_line = findViewById(R.id.receipt_from);
-        from_tv = from_line.findViewById(R.id.actv_line_tv);
-        from_tv.setText(getString(R.string.name));
-        from_actv = from_line.findViewById(R.id.actv_line_actv);
+        from_actv = findViewById(R.id.edit_receipt_name_actv);
         from_actv.setText(from);
 
         from_actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,10 +78,8 @@ public class EditReceipt extends BaseActivity {
             }
         });
 
-        View to_line = findViewById(R.id.receipt_to);
-        to_tv = to_line.findViewById(R.id.actv_line_tv);
-        to_tv.setText(getString(R.string.to));
-        to_actv = to_line.findViewById(R.id.actv_line_actv);
+
+        to_actv = findViewById(R.id.edit_receipt_to_actv);
         to_actv.setText(to);
 
         to_actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,6 +109,7 @@ public class EditReceipt extends BaseActivity {
         from = "From";
         to = "To";
         amount = "amount";
+        r_id = 0;
     }
 
     private void getData() {
@@ -150,7 +143,7 @@ public class EditReceipt extends BaseActivity {
                         if(year<100)
                             yearS="20"+yearS;
 
-                        date_tv.setText(day + "-" + month + "-" + yearS);
+                        date_tv.setText((day + "-" + month + "-" + yearS));
                         date_tv.setError(null);
                     }
                 }, mYear, mMonth, mDay);
@@ -189,7 +182,7 @@ public class EditReceipt extends BaseActivity {
             return;
         }
 
-        if(!sharedPreferences.getBoolean("Confirm", true)){
+        if(!sharedPreferences.getBoolean(getString(R.string.Key_ConfirmDialog), true)){
             updateReceipt();
             return;
         }
@@ -208,7 +201,7 @@ public class EditReceipt extends BaseActivity {
                 {
                     Toast.makeText(getApplicationContext(),"Confirmation Disabled",Toast.LENGTH_SHORT).show();
                     editor=sharedPreferences.edit();
-                    editor.putBoolean("Confirm", false);
+                    editor.putBoolean(getString(R.string.Key_ConfirmDialog), false);
                     editor.apply();
 
                 }
@@ -227,12 +220,7 @@ public class EditReceipt extends BaseActivity {
     }
 
     private void updateReceipt() {
-        int t_num = sharedPreferences.getInt("Transaction_Number", 1);
-        int r_num = sharedPreferences.getInt("Receipt_Number", 1);
-        editor.putInt("Transaction_Number", t_num+1);
-        editor.putInt("Receipt_Number", r_num+1);
-        editor.apply();
-        Transaction_Item item = new Transaction_Item(Integer.toString(t_num), from_id, from, to_id, "Receipt No." + r_num, Float.parseFloat(amount), "Receipt", date);
+        Transaction_Item item = new Transaction_Item(t_id, from_id, from, to_id, "Receipt No." + r_id, Float.parseFloat(amount), "Receipt", date);
         //TODO Add item into database
         //TODO Update Balances
 

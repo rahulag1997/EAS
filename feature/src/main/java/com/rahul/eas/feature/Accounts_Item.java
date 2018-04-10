@@ -2,7 +2,7 @@ package com.rahul.eas.feature;
 
 class Accounts_Item
 {
-    String id;
+    Integer id;
     String name;
     private String location;
     Float balance;
@@ -10,7 +10,7 @@ class Accounts_Item
     Float credit;
     private String type;
 
-    Accounts_Item(String id, String name, Float debit, Float credit, Float balance)
+    Accounts_Item(Integer id, String name, Float debit, Float credit, Float balance)
     {
         this.id = id;
         this.name = name;
@@ -19,7 +19,7 @@ class Accounts_Item
         this.balance = balance;
     }
 
-    Accounts_Item(String id, String name, String location, Float debit, Float credit, Float balance, String type)
+    Accounts_Item(Integer id, String name, String location, Float debit, Float credit, Float balance, String type)
     {
         this.id = id;
         this.name = name;

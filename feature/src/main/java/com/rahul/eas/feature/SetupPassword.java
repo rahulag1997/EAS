@@ -19,13 +19,12 @@ public class SetupPassword extends AppCompatActivity {
     private EditText password_et, confirm_et;
     private CheckBox checkBox;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_password);
-
-        if(getSupportActionBar()!=null)
-            getSupportActionBar().setTitle("Setup Password");
 
         setup();
     }
@@ -46,20 +45,20 @@ public class SetupPassword extends AppCompatActivity {
         confirm_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                create();
+                save();
                 return false;
             }
         });
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        checkBox.setChecked(sharedPreferences.getBoolean("Fingerprint",false));
+        sharedPreferences = this.getSharedPreferences(getString(R.string.SharedPreferencesName), Context.MODE_PRIVATE);
+        checkBox.setChecked(sharedPreferences.getBoolean(getString(R.string.Key_UseFingerprint),false));
     }
 
-    public void Create(View view) {
-        create();
+    public void Save(View view) {
+        save();
     }
 
-    private void create() {
+    private void save() {
         String pass1 = password_et.getText().toString();
         String pass2 = confirm_et.getText().toString();
 
@@ -78,16 +77,15 @@ public class SetupPassword extends AppCompatActivity {
             return;
         }
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString("Password",pass1);
-        editor.putBoolean("Fingerprint",checkBox.isChecked());
+        editor.putString(getString(R.string.Key_PasswordValue), pass1);
+        editor.putBoolean(getString(R.string.Key_UseFingerprint), checkBox.isChecked());
         editor.apply();
 
-        startActivity(new Intent(this,LoginScreen.class));
+        startActivity(new Intent(this, LoginScreen.class));
 
-        Toast.makeText(this, "Account Created Successfully",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

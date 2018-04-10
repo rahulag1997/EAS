@@ -32,7 +32,8 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="30dp"
                 android:clickable="true"
-                app:srcCompat="@drawable/plus"/>
+                app:srcCompat="@drawable/plus"
+                android:focusable="true" />
 
         </FrameLayout>
 

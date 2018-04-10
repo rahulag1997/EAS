@@ -14,7 +14,7 @@ public class Settings extends BaseActivity {
 
     // Private Variables
     // Views
-    private CheckBox fingerprint_cb;
+    private CheckBox fingerprint_cb, confirmation_cb;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -26,8 +26,7 @@ public class Settings extends BaseActivity {
         FloatingActionButton floatingActionButton= findViewById(R.id.fab);
         floatingActionButton.hide();
 
-        sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        sharedPreferences = this.getSharedPreferences(getString(R.string.SharedPreferencesName), Context.MODE_PRIVATE);
 
         setup();
     }
@@ -35,12 +34,26 @@ public class Settings extends BaseActivity {
     private void setup() {
         fingerprint_cb = findViewById(R.id.settings_fingerprint_cb);
 
-        fingerprint_cb.setChecked(sharedPreferences.getBoolean("Fingerprint",false));
+        fingerprint_cb.setChecked(sharedPreferences.getBoolean(getString(R.string.Key_UseFingerprint),false));
 
         fingerprint_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                editor.putBoolean("Fingerprint",fingerprint_cb.isChecked());
+                editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.Key_UseFingerprint),fingerprint_cb.isChecked());
+                editor.apply();
+            }
+        });
+
+        confirmation_cb = findViewById(R.id.settings_confirmation_cb);
+
+        confirmation_cb.setChecked(sharedPreferences.getBoolean(getString(R.string.Key_ConfirmDialog),true));
+
+        confirmation_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.Key_ConfirmDialog),confirmation_cb.isChecked());
                 editor.apply();
             }
         });

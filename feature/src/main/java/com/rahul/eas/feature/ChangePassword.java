@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,10 +57,10 @@ public class ChangePassword extends AppCompatActivity {
     }
 
     private void update() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.SharedPreferencesName), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        String actual_password = sharedPreferences.getString("Password","");
+        String actual_password = sharedPreferences.getString(getString(R.string.Key_PasswordValue),"");
         String current_password = curr_pass_et.getText().toString();
         String new_password = new_pass_et.getText().toString();
         String confirm_password = confirm_pass_et.getText().toString();
@@ -81,7 +80,7 @@ public class ChangePassword extends AppCompatActivity {
             return;
         }
 
-        editor.putString("Password", new_password);
+        editor.putString(getString(R.string.Key_PasswordValue), new_password);
         editor.apply();
         Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
         finish();

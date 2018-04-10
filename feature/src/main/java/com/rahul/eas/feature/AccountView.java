@@ -1,7 +1,6 @@
 package com.rahul.eas.feature;
 
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 public class AccountView extends BaseActivity {
 
     // Private Variables
-    private String account_id;
+    private Integer account_id;
     private ArrayList<AccountView_Item> data;
     AccountView_List_Adapter adapter;
 
@@ -21,8 +20,8 @@ public class AccountView extends BaseActivity {
         FloatingActionButton floatingActionButton= findViewById(R.id.fab);
         floatingActionButton.hide();
 
-        account_id = getIntent().getStringExtra("Id");
-        String name = getIntent().getStringExtra("Name");
+        account_id = getIntent().getIntExtra(getString(R.string.Extra_AccView_Id), 0);
+        String name = getIntent().getStringExtra(getString(R.string.Extra_AccView_Name));
         
         if(getSupportActionBar()!=null)
             getSupportActionBar().setTitle(name);

@@ -21,7 +21,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         //root layout
-        mDrawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
+        mDrawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null, false);
         //frame layout
         FrameLayout activityContainer = mDrawerLayout.findViewById(R.id.activity_content);
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
@@ -47,6 +47,9 @@ public class BaseActivity extends AppCompatActivity {
                         }
                         else if(i == R.id.menu_logout) {
                             startActivity(new Intent(getApplicationContext(), LoginScreen.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        }
+                        else if(i == R.id.menu_new_receipt) {
+                            startActivity(new Intent(getApplicationContext(), NewReceipt.class));
                         }
 
                         // Add code here to update the UI based on the item selected

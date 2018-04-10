@@ -2,7 +2,6 @@ package com.rahul.eas.feature;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -33,7 +32,7 @@ public class Bank extends BaseActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), NewAccount.class).putExtra("Type",0));
+                startActivity(new Intent(getApplicationContext(), NewAccount.class).putExtra(getString(R.string.Extra_NewAcc_Type),0));
             }
         });
     }

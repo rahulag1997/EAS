@@ -7,44 +7,82 @@
     android:orientation="vertical"
     tools:context=".EditReceipt">
 
-    <include
-        layout="@layout/date_line"
-        android:id="@+id/receipt_date"
+    <TextView
+        android:id="@+id/edit_receipt_date_tv"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_margin="5dp"
-        android:layout_height="wrap_content">
-    </include>
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:textAlignment="viewStart"
+        android:gravity="start"
+        android:hint="@string/set_date"
+        android:onClick="setDate"/>
 
-    <include
-        layout="@layout/actv_line"
-        android:id="@+id/receipt_from"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
-    </include>
+        android:layout_margin="5dp"
+        android:text="@string/name">
 
-    <include
-        layout="@layout/actv_line"
-        android:id="@+id/receipt_to"
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:maxLines="1"
+            android:inputType="textCapWords"
+            android:completionThreshold="1"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:id="@+id/edit_receipt_name_actv"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
-    </include>
+        android:layout_margin="5dp"
+        android:text="@string/to">
 
-    <include
-        layout="@layout/et_line_number"
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:maxLines="1"
+            android:inputType="textCapWords"
+            android:completionThreshold="1"
+            android:layout_height="wrap_content"
+            android:hint="@string/to"
+            android:id="@+id/edit_receipt_to_actv"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/receipt_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
-    </include>
+        android:layout_margin="5dp"
+        android:text="@string/amount"
+        android:textAlignment="viewStart"
+        android:gravity="start" >
+
+        <EditText
+            android:id="@+id/edit_receipt_amount_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:gravity="start"
+            android:inputType="number"
+            android:hint="@string/amount"
+            android:textAlignment="viewStart" />
+
+    </android.support.design.widget.TextInputLayout>
 
 
     <Button
         android:layout_width="match_parent"
         android:id="@+id/submit_button"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/submit"
+        android:padding="10dp"
+        android:layout_margin="5dp"
         android:onClick="Submit"/>
 
 </LinearLayout>

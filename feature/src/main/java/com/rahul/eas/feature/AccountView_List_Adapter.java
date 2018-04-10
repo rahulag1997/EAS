@@ -43,7 +43,7 @@ class AccountView_List_Adapter extends BaseAdapter
     {
         if(convertView==null)
         {
-            convertView=layoutInflater.inflate(R.layout.account_view_item, null);
+            convertView=layoutInflater.inflate(R.layout.account_view_item, parent, false);
         }
         final AccountView_Item item = (AccountView_Item) getItem(position);
 

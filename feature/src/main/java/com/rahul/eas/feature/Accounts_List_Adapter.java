@@ -41,7 +41,7 @@ class Accounts_List_Adapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent)    {
         if(convertView == null)
         {
-            convertView = layoutInflater.inflate(R.layout.accounts_item,null);
+            convertView = layoutInflater.inflate(R.layout.accounts_item, parent, false);
         }
         final Accounts_Item item = (Accounts_Item) getItem(position);
         TextView sno_tv = convertView.findViewById(R.id.accounts_item_sno);
@@ -65,8 +65,8 @@ class Accounts_List_Adapter extends BaseAdapter {
             public void onClick(View v)
             {
                 Intent i=new Intent(context, AccountView.class);
-                i.putExtra("Name", item.name);
-                i.putExtra("Id", item.id);
+                i.putExtra(context.getString(R.string.Extra_AccView_Name), item.name);
+                i.putExtra(context.getString(R.string.Extra_AccView_Id), item.id);
                 (context).startActivity(i);
             }
         });

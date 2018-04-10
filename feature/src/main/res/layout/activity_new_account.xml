@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="10dp"
-            android:text="Type"/>
+            android:text="@string/type"/>
 
         <Spinner
             android:layout_width="wrap_content"
@@ -27,32 +27,62 @@
 
     </LinearLayout>
 
-    <include
-        layout="@layout/et_line"
-        android:id="@+id/new_account_location_line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </include>
 
-    <include
-        layout="@layout/et_line"
-        android:id="@+id/new_account_name_line"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </include>
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/name">
 
-    <include
-        layout="@layout/et_line_number"
-        android:id="@+id/new_account_amount_line"
+    <EditText
+        android:id="@+id/new_account_name_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </include>
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textCapWords"
+        android:maxLines="1" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/location">
+
+        <EditText
+            android:id="@+id/new_account_location_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/location"
+            android:inputType="textCapWords"
+            android:maxLines="1" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/amount">
+
+        <EditText
+            android:id="@+id/new_account_amount_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/amount"
+            android:gravity="start"
+            android:inputType="number"
+            android:textAlignment="viewStart" />
+    </android.support.design.widget.TextInputLayout>
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Submit"
+        android:text="@string/submit"
         android:id="@+id/submit_button"
         android:onClick="Submit"/>
 

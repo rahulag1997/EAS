@@ -2,16 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/menu_new_receipt"
+            android:title="@string/new_receipt"
+            android:icon="@drawable/plus"/>
+        <item
             android:id="@+id/menu_home"
-            android:title="Home"
+            android:title="@string/home"
             android:icon="@drawable/home"/>
         <item
             android:id="@+id/menu_settings"
-            android:title="Settings"
+            android:title="@string/settings"
             android:icon="@drawable/settings"/>
         <item
             android:id="@+id/menu_logout"
-            android:title="Logout"
+            android:title="@string/logout"
             android:icon="@drawable/signout"/>
 
     </group>
