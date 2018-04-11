@@ -69,8 +69,9 @@ class Accounts_List_Adapter extends BaseAdapter {
             public void onClick(View v)
             {
                 Intent i=new Intent(context, AccountView.class);
-                i.putExtra(context.getString(R.string.Extra_AccView_Name), item.name);
                 i.putExtra(context.getString(R.string.Extra_AccView_Id), item.id);
+                i.putExtra(context.getString(R.string.Extra_AccView_Name), item.name);
+                i.putExtra(context.getString(R.string.Extra_AccView_Type), item.type);
                 (context).startActivity(i);
             }
         });

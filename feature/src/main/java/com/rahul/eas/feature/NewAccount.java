@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.ArrayList;
 
 public class NewAccount extends BaseActivity {
     private SharedPreferences sharedPreferences;
@@ -103,9 +102,9 @@ public class NewAccount extends BaseActivity {
         // TODO Add into account
         Accounts_Item item = new Accounts_Item(id, name, location, debit, credit, ob_val, type);
 
-        Accounts_Item_Database accounts_item_database = Room.databaseBuilder(getApplicationContext(), Accounts_Item_Database.class, "Accounts").allowMainThreadQueries().build();
-
-        accounts_item_database.accounts_item_dao().insertAll(item);
+        MyDatabase my_database = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "Accounts").allowMainThreadQueries().build();
+        AccountsDAO accountsDAO = my_database.accounts_dao();
+        accountsDAO.insertAll(item);
 
         SharedPreferences.Editor editor= sharedPreferences.edit();
         editor.putInt(getString(R.string.Key_A_Count), id+1);

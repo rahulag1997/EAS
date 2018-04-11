@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AccountsView extends BaseActivity {
 
@@ -62,19 +60,11 @@ public class AccountsView extends BaseActivity {
     private void getData() {
         data.clear();
 
-        Accounts_Item_Database accounts_item_database = Room.databaseBuilder(getApplicationContext(), Accounts_Item_Database.class, "Accounts").allowMainThreadQueries().build();
+        MyDatabase my_database = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "Accounts").allowMainThreadQueries().build();
+        AccountsDAO accountsDAO = my_database.accounts_dao();
+        data.addAll(accountsDAO.getAllTypeAccounts(acc_type_str));
 
-        switch (acc_type)
-        {
-            case 0: data = (ArrayList<Accounts_Item>) accounts_item_database.accounts_item_dao().getAllBankAccounts(); break;
-            case 1: data = (ArrayList<Accounts_Item>) accounts_item_database.accounts_item_dao().getAllCashAccounts(); break;
-            case 2: data = (ArrayList<Accounts_Item>) accounts_item_database.accounts_item_dao().getAllExpenseAccounts(); break;
-            case 3: data = (ArrayList<Accounts_Item>) accounts_item_database.accounts_item_dao().getAllCreditorAccounts(); break;
-            case 4: data = (ArrayList<Accounts_Item>) accounts_item_database.accounts_item_dao().getAllDebtorAccounts(); break;
-            case 5: data = (ArrayList<Accounts_Item>) accounts_item_database.accounts_item_dao().getAllSalesAccounts(); break;
-        }
-
-        adapter.updateData(data);
+        adapter.notifyDataSetChanged();
         Float total = 0.0f, c_total = 0.0f, d_total = 0.0f;
         for (int i=0; i<data.size();i++)
         {

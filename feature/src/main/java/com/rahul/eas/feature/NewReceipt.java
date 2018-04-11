@@ -2,6 +2,7 @@ package com.rahul.eas.feature;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -27,7 +28,8 @@ public class NewReceipt extends BaseActivity {
     private EditText amount_et;
     private AutoCompleteTextView from_actv, to_actv;
 
-    private ArrayList<String> from_list, to_list;
+    private ArrayList<Accounts_Item> from_list, to_list;
+    private ArrayList<String> from_list_name, to_list_name;
     private ArrayList<Integer> from_list_id, to_list_id;
     private ArrayAdapter<String> from_adapter, to_adapter;
 
@@ -38,6 +40,10 @@ public class NewReceipt extends BaseActivity {
     private String date;
     private String amount;
     private Integer from_id, to_id;
+
+    private MyDatabase my_database;
+    private AccountsDAO accountsDAO;
+    private TransactionsDAO transactionsDAO;
 
 
     @Override
@@ -87,20 +93,38 @@ public class NewReceipt extends BaseActivity {
 
         from_list = new ArrayList<>();
         from_list_id = new ArrayList<>();
+        from_list_name = new ArrayList<>();
         to_list = new ArrayList<>();
         to_list_id = new ArrayList<>();
+        to_list_name = new ArrayList<>();
 
-        from_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, from_list);
+        from_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, from_list_name);
         from_actv.setAdapter(from_adapter);
-        to_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, to_list);
+        to_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, to_list_name);
         to_actv.setAdapter(to_adapter);
+
+        my_database = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "Accounts").allowMainThreadQueries().build();
+        accountsDAO = my_database.accounts_dao();
+        transactionsDAO  = my_database.transactions_dao();
 
         getData();
 
     }
 
     private void getData() {
-        //TODO Implement This
+        from_list = (ArrayList<Accounts_Item>) my_database.accounts_dao().getAllTypeAccounts("Debtor");
+        to_list = (ArrayList<Accounts_Item>) my_database.accounts_dao().getAllTypesAccounts(new String[] {"Cash","Bank"});
+        from_list_name.clear();
+        to_list_name.clear();
+
+        for (int i = 0; i < from_list.size(); i++) {
+            from_list_name.add(from_list.get(i).name);
+            from_list_id.add(from_list.get(i).id);
+        }
+        for (int i = 0; i < to_list.size(); i++) {
+            to_list_name.add(to_list.get(i).name);
+            to_list_id.add(to_list.get(i).id);
+        }
         from_adapter.notifyDataSetChanged();
         to_adapter.notifyDataSetChanged();
     }
@@ -151,25 +175,24 @@ public class NewReceipt extends BaseActivity {
             date_tv.setError("Required");
             return;
         }
-
-        if(!from_list.contains(from)){
+        if(!from_list_name.contains(from)) {
             from_actv.setError("Not in Data");
             return;
         }
-        from_id = from_list_id.get(from_list.indexOf(from));
+        from_id = from_list_id.get(from_list_name.indexOf(from));
 
-        if(!to_list.contains(to)){
+        if(!to_list_name.contains(to)){
             to_actv.setError("Not in Data");
             return;
         }
-        to_id = to_list_id.get(to_list.indexOf(to));
+        to_id = to_list_id.get(to_list_name.indexOf(to));
 
         if(amount.equals("")){
             amount_et.setError("Required");
             return;
         }
 
-        if(!sharedPreferences.getBoolean("Confirm", true)){
+        if(!sharedPreferences.getBoolean(getString(R.string.Key_ConfirmDialog), true)){
             addNewReceipt();
             return;
         }
@@ -188,7 +211,7 @@ public class NewReceipt extends BaseActivity {
                 {
                     Toast.makeText(getApplicationContext(),"Confirmation Disabled",Toast.LENGTH_SHORT).show();
                     editor=sharedPreferences.edit();
-                    editor.putBoolean("Confirm", false);
+                    editor.putBoolean(getString(R.string.Key_ConfirmDialog), false);
                     editor.apply();
 
                 }
@@ -207,14 +230,23 @@ public class NewReceipt extends BaseActivity {
     }
 
     private void addNewReceipt() {
+        editor = sharedPreferences.edit();
         Integer t_id = sharedPreferences.getInt(getString(R.string.Key_T_Count), 1);
         Integer r_id = sharedPreferences.getInt(getString(R.string.Key_R_Count), 1);
         editor.putInt(getString(R.string.Key_T_Count), t_id+1);
         editor.putInt(getString(R.string.Key_R_Count), r_id+1);
         editor.apply();
         Transaction_Item item = new Transaction_Item(t_id, from_id, from, to_id, "Receipt No." + r_id, Float.parseFloat(amount), "Receipt", date);
-        //TODO Add item into database
-        //TODO Update Balances
+        transactionsDAO.insertAll(item);
 
+        // Update
+
+        accountsDAO.incrementDebit(Float.parseFloat(amount), from_id);
+        accountsDAO.decrementBalance(Float.parseFloat(amount), from_id);
+
+        accountsDAO.incrementCredit(Float.parseFloat(amount), to_id);
+        accountsDAO.incrementBalance(Float.parseFloat(amount), to_id);
+        Toast.makeText(getApplicationContext(), "Receipt Added Successfully",Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

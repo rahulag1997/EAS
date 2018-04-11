@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 
-import java.util.ArrayList;
-
 public class Home extends BaseActivity {
     // Private Variables
     private SharedPreferences sharedPreferences;
@@ -28,12 +26,14 @@ public class Home extends BaseActivity {
     }
 
     private void init() {
-        Accounts_Item_Database accounts_item_database = Room.databaseBuilder(getApplicationContext(), Accounts_Item_Database.class, "Accounts").allowMainThreadQueries().build();
+        MyDatabase my_database = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "Accounts").allowMainThreadQueries().build();
+        AccountsDAO accountsDAO = my_database.accounts_dao();
+
         Accounts_Item cash = new Accounts_Item(1, "Cash", "-", 0.0f, 0.0f, 0.0f, "Cash");
         Accounts_Item sales = new Accounts_Item(2, "Sales", "-", 0.0f, 0.0f, 0.0f, "Sales");
         Accounts_Item purchase = new Accounts_Item(3, "Purchase", "-", 0.0f, 0.0f, 0.0f, "Purchase");
         Accounts_Item expense = new Accounts_Item(4, "Expense", "-", 0.0f, 0.0f, 0.0f, "Expense");
-        accounts_item_database.accounts_item_dao().insertAll(cash, sales, purchase, expense);
+        accountsDAO.insertAll(cash, sales, purchase, expense);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getString(R.string.Key_InitAccount), false);
